@@ -3,17 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <title>CMS Admin</title>
-    <!-- Vypne auto‐inicializáciu -->
     <script>window.CMS_MANUAL_INIT = true;</script>
   </head>
   <body>
-    <!-- Čistý Netlify CMS loader -->
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <script src="https://unpkg.com/netlify-cms@^2.15.52/dist/netlify-cms.js"></script>
     <script>
-      // Explicitne načítaj config zo správnej cesty:
-      CMS.init({
-        config: '/admin/config.yml'
-      });
+      CMS.init({ config: '/admin/config.yml' });
     </script>
   </body>
 </html>
