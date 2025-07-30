@@ -1,7 +1,10 @@
 
 backend:
-  name: git-gateway
+  name: github
+  repo: tvoje‑user/fest-classic-rock-band
   branch: main
+  auth_scope: "repo"
+  app_id: "${GITHUB_CLIENT_ID}"
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
