@@ -1,19 +1,17 @@
 <!doctype html>
 <html lang="sk">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>CMS Admin</title>
-  <!-- 1) Štýly Netlify CMS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/netlify-cms@^2.15.0/dist/netlify-cms.css"
-  />
-  <!-- 2) Identity Widget pre autentifikáciu -->
+
+  <!-- Netlify Identity Widget pre autentifikáciu -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <!-- Čistý Netlify CMS bundle (obsahuje React, ReactDOM aj auto-init) -->
+  <script src="https://unpkg.com/netlify-cms@^2.15.0/dist/netlify-cms.js"></script>
 </head>
 <body>
-  <!-- 3) Hlavný CMS bundle (obsahuje auto-init) -->
-  <script src="https://unpkg.com/netlify-cms-app@^2.15.0/dist/netlify-cms-app.js"></script>
+  <!-- Netlify CMS sa samo inicializuje a načíta config zo /admin/config.yml -->
 </body>
 </html>
