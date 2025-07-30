@@ -1,7 +1,7 @@
 
 backend:
   name: github
-  repo: adammacejka/fest-classic-rock-band  # exactly your GitHub repo name
+  repo: AdamMacejka/FestClassicRockBand  # exactly your GitHub repo name
   branch: main
   auth_scope: "repo"
   app_id: "Iv23liqhPDCxjnMiDD6I"       # paste the Client ID here
