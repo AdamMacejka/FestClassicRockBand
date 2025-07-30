@@ -1,13 +1,18 @@
 [build]
-  # žiadny build command, lebo je to čistý HTML projekt
-  publish = "."      # <-- toto hovorí Netlify: „Hľadaj index.html aj _redirects tu, v root“
+  publish = "."    # Ensure we publish from the repo root
+
+# Serve the raw CMS config & index:
+[[redirects]]
+  from   = "/admin/config.yml"
+  to     = "/admin/config.yml"
+  status = 200
 
 [[redirects]]
-  from   = "/admin"
+  from   = "/admin/index.html"
   to     = "/admin/index.html"
   status = 200
-  force  = true
 
+# Everything else under /admin → serve the SPA loader
 [[redirects]]
   from   = "/admin/*"
   to     = "/admin/index.html"
