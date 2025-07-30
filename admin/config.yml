@@ -3,7 +3,7 @@ backend:
   name: github
   repo: AdamMacejka/FestClassicRockBand  # exactly your GitHub repo name
   branch: main
-  auth_scope: "repo" 
+  auth_scope: "repo"
   app_id: "0v23liQrIQsMirq3NKbx"
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
