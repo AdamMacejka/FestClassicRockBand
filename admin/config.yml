@@ -4,7 +4,7 @@ backend:
   repo: AdamMacejka/FestClassicRockBand  # exactly your GitHub repo name
   branch: main
   auth_scope: "repo"
-  app_id: "Iv23liqhPDCxjnMiDD6I"       # paste the Client ID here
+  app_id: "${GITHUB_CLIENT_ID}"
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
