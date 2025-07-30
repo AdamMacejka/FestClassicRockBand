@@ -31,7 +31,7 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Meno",       name: "name",       widget: "string" }
+      - { label: "Meno",       name: "title",       widget: "string" }   # ← zmena tu
       - { label: "Nástroj",    name: "instrument", widget: "string" }
       - { label: "Fotka",      name: "image",      widget: "image" }
 
