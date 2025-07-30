@@ -8,15 +8,22 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
+# if you don’t have an Uploadcare key, you can omit this block,
+# but newer Netlify CMS versions sometimes require a stub:
+media_library:
+  name: uploadcare
+  config:
+    publicKey: "demopublickey"
+
 collections:
   - name: "about"
-    label: "O nás"
+    label: "O nás"
     files:
-      - label: "Text sekcie O nás"
+      - label: "Text sekcie O nás"
         name: "about"
         file: "content/about.md"
         fields:
-          - { label: "Text", name: "body", widget: "markdown" }
+          - { label: "Obsah", name: "body", widget: "markdown" }
 
   - name: "members"
     label: "Členovia"
@@ -24,9 +31,9 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Meno", name: "name", widget: "string" }
-      - { label: "Nástroj", name: "instrument", widget: "string" }
-      - { label: "Fotka", name: "image", widget: "image" }
+      - { label: "Meno",       name: "name",       widget: "string" }
+      - { label: "Nástroj",    name: "instrument", widget: "string" }
+      - { label: "Fotka",      name: "image",      widget: "image" }
 
   - name: "concerts"
     label: "Koncerty"
@@ -34,5 +41,5 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Dátum", name: "date", widget: "datetime" }
-      - { label: "Miesto", name: "location", widget: "string" }
+      - { label: "Dátum",   name: "date",     widget: "datetime" }
+      - { label: "Miesto",  name: "location", widget: "string" }
