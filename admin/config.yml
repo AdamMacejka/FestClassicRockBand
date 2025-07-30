@@ -1,29 +1,28 @@
 
 backend:
-  name: test-repo
-  local_backend: true
+  name: git-gateway
+  branch: main
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
   - name: "about"
-    label: "O nás"
+    label: "O nás"
     files:
-      - label: "Text sekcie O nás"
-        name: "about_text"
+      - label: "Text sekcie O nás"
+        name: "about"
         file: "content/about.md"
         fields:
           - { label: "Text", name: "body", widget: "markdown" }
 
   - name: "members"
     label: "Členovia"
-    label_singular: "Člen"
     folder: "content/members"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Meno", name: "title", widget: "string" }
+      - { label: "Meno", name: "name", widget: "string" }
       - { label: "Nástroj", name: "instrument", widget: "string" }
       - { label: "Fotka", name: "image", widget: "image" }
 
