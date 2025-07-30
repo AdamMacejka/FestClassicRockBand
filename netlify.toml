@@ -1,3 +1,7 @@
+[build]
+  # žiadny build command, lebo je to čistý HTML projekt
+  publish = "."      # <-- toto hovorí Netlify: „Hľadaj index.html aj _redirects tu, v root“
+
 [[redirects]]
   from   = "/admin"
   to     = "/admin/index.html"
