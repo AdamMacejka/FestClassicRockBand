@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="sk">
-  <head>
-    <meta charset="utf-8" />
-    <title>CMS Admin</title>
-    <script>window.CMS_MANUAL_INIT = true;</script>
-  </head>
-  <body>
-    <script src="https://unpkg.com/netlify-cms@^2.15.52/dist/netlify-cms.js"></script>
-    <script>
-      CMS.init({ config: '/admin/config.yml' });
-    </script>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CMS Admin</title>
+</head>
+<body>
+  <!-- 1) React a ReactDOM -->
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <!-- 2) Netlify CMS App bundle -->
+  <script src="https://unpkg.com/netlify-cms-app@^2.15.59/dist/netlify-cms-app.js"></script>
+</body>
 </html>
