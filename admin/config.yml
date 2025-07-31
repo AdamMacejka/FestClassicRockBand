@@ -1,15 +1,13 @@
-
 backend:
   name: github
-  repo: AdamMacejka/FestClassicRockBand  # exactly your GitHub repo name
+  repo: AdamMacejka/FestClassicRockBand
   branch: main
   auth_scope: "repo"
-  app_id: "${GITHUB_CLIENT_ID}"
+  app_id: "${GITHUB_CLIENT_ID}"  # alebo natvrdo "0v23liQrIQsMirq3NKbx" na debug
+
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-# if you don’t have an Uploadcare key, you can omit this block,
-# but newer Netlify CMS versions sometimes require a stub:
 media_library:
   name: uploadcare
   config:
@@ -23,23 +21,27 @@ collections:
         name: "about"
         file: "content/about.md"
         fields:
-          - { label: "Obsah", name: "body", widget: "markdown" }
+          - label: "Obsah"
+            name: "body"
+            widget: "markdown"
 
   - name: "members"
     label: "Členovia"
     folder: "content/members"
     create: true
     slug: "{{slug}}"
+    identifier_field: "name"
     fields:
-      - { label: "Meno",       name: "name",       widget: "string" }
-      - { label: "Nástroj",    name: "instrument", widget: "string" }
-      - { label: "Fotka",      name: "image",      widget: "image" }
+      - { label: "Meno", name: "name", widget: "string" }
+      - { label: "Nástroj", name: "instrument", widget: "string" }
+      - { label: "Fotka", name: "image", widget: "image" }
 
   - name: "concerts"
     label: "Koncerty"
     folder: "content/concerts"
     create: true
     slug: "{{slug}}"
+    identifier_field: "date"
     fields:
-      - { label: "Dátum",   name: "date",     widget: "datetime" }
-      - { label: "Miesto",  name: "location", widget: "string" }
+      - { label: "Dátum", name: "date", widget: "datetime" }
+      - { label: "Miesto", name: "location", widget: "string" }
