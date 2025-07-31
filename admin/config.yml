@@ -8,11 +8,6 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-media_library:
-  name: uploadcare
-  config:
-    publicKey: "demopublickey"
-
 collections:
   - name: "about"
     label: "O nás"
