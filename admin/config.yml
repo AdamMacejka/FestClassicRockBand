@@ -20,6 +20,19 @@ collections:
             name: "body"
             widget: "markdown"
 
+  - name: "homepage"
+    label: "Úvodná stránka"
+    files:
+      - label: "Hlavná stránka"
+        name: "homepage"
+        file: "content/homepage.yml"
+        fields:
+          - { label: "Názov kapely", name: "band_name", widget: "string", default: "Fest Classic Rock Band" }
+          - { label: "Podnadpis / tagline", name: "tagline", widget: "string", default: "Rockové hity, ktoré nezabúdajú" }
+          - { label: "Titulná fotka", name: "cover_image", widget: "image" }
+          - { label: "O nás (text)", name: "about_text", widget: "markdown" }
+          - { label: "Email pre kontakt", name: "contact_email", widget: "string", default: "booking@festclassicrockband.com" }
+
   - name: "members"
     label: "Členovia"
     folder: "content/members"
