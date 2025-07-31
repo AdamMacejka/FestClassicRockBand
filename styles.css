@@ -75,13 +75,22 @@ a {
   text-align: center;
 }
 
-.photo-placeholder {
-  width: 150px;
-  height: 150px;
-  background: #333;
-  border: 4px solid var(--accent-color);
-  margin-bottom: 10px;
+.member img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
 }
+.photo-placeholder {
+  background: #444;
+  width: 100%;
+  padding-top: 100%; /* pomer 1:1 */
+  border-radius: 4px;
+}
+.member .photo {
+  margin-bottom: 0.5rem;
+}
+
 
 .footer {
   text-align: center;
