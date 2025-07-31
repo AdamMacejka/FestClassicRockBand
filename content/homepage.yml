@@ -5,3 +5,5 @@ placeholder_image: ""
 logo_image: /images/uploads/logo_extracted_with_red.png
 about_text: Sme skúsená kapela, čo hrá klasiku srdcom.
 contact_email: booking@festclassicrockband.com
+facebook_url: "https://facebook.com/yourpage"  # nahradíš cez CMS
+
