@@ -17,17 +17,23 @@
 body {
   background: var(--bg-color);
   color: var(--text-color);
-  font-family: 'Roboto Slab', system-ui, serif;
+  font-family: 'Roboto Slab', serif;
   line-height: 1.5;
 }
 
 a {
   color: var(--accent-color);
   text-decoration: none;
+  outline: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
 }
 
 h1, h2 {
-  font-family: 'Rock Salt', cursive;
+  font-family: 'UnifrakturCook', cursive;
   text-align: center;
   margin-bottom: 0.5rem;
 }
@@ -89,7 +95,6 @@ h1, h2 {
   padding: 6px 14px;
   border-radius: 4px;
   transition: background .2s;
-  text-decoration: none;
 }
 
 .main-nav a:hover {
@@ -139,6 +144,7 @@ h1, h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  user-select: none;
 }
 
 .member:hover {
