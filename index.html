@@ -191,7 +191,14 @@
       if (data.about_text) {
         const aboutEl = document.getElementById('about-text');
         if (window.marked) {
-          aboutEl.innerHTML = marked(data.about_text);
+          // nové verzie používajú marked.parse
+          if (typeof marked === 'function') {
+            aboutEl.innerHTML = marked(data.about_text);
+          } else if (marked.parse) {
+            aboutEl.innerHTML = marked.parse(data.about_text);
+          } else {
+            aboutEl.textContent = data.about_text;
+          }
         } else {
           aboutEl.textContent = data.about_text;
         }
