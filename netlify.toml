@@ -1,19 +1,6 @@
 [build]
-  publish = "."    # hľadaj index.html tu, v repozitári
+  publish = "."
 
-# 1) Povoľ priamy prístup ku config.yml
-[[redirects]]
-  from   = "/admin/config.yml"
-  to     = "/admin/config.yml"
-  status = 200
-
-# 2) Povoľ priamy prístup k index.html loaderu
-[[redirects]]
-  from   = "/admin/index.html"
-  to     = "/admin/index.html"
-  status = 200
-
-# 3) Presmeruj všetko ostatné pod /admin na SPA loader
 [[redirects]]
   from   = "/admin"
   to     = "/admin/index.html"
