@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fest Classic Rock Band</title>
+
+  <!-- rockový font + fallback -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
@@ -45,7 +51,20 @@
 
   <section id="contact" class="section">
     <h2>Kontakt</h2>
-    <p>Email: <a id="contact-email" href="mailto:booking@festclassicrockband.com">booking@festclassicrockband.com</a></p>
+    <div class="contact-row">
+      <p class="email">
+        Email: <a id="contact-email" href="mailto:booking@festclassicrockband.com">booking@festclassicrockband.com</a>
+      </p>
+      <p class="social">
+        <!-- Facebook icon + placeholder, ukáže sa len ak existuje link -->
+        <a id="facebook-link" href="#" target="_blank" aria-label="Facebook kapely" class="facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M13.5 3H16V0h-3c-3.038 0-5 1.962-5 5v2H6v4h2v8h4v-8h3l1-4h-4V5c0-.551.448-1 1-1h2V3z"/>
+          </svg>
+          <span class="label">Facebook</span>
+        </a>
+      </p>
+    </div>
   </section>
 
   <footer class="footer">
@@ -65,12 +84,11 @@
         const logoEl = document.getElementById('logo-image');
         if (data.logo_image) {
           logoEl.src = data.logo_image;
+          logoEl.alt = data.band_name || 'Fest Classic Rock Band';
           logoEl.style.display = 'block';
         } else {
-          // skryť element, keď nie je logo
           logoEl.style.display = 'none';
         }
-
 
         // Cover / placeholder
         const hero = document.getElementById('hero');
@@ -100,11 +118,18 @@
           }
         }
 
-        // Kontakt
+        // Kontakt email
         if (data.contact_email) {
           const emailEl = document.getElementById('contact-email');
           emailEl.textContent = data.contact_email;
           emailEl.href = 'mailto:' + data.contact_email;
+        }
+
+        // Facebook (voliteľné)
+        if (data.facebook_url) {
+          const fb = document.getElementById('facebook-link');
+          fb.href = data.facebook_url;
+          fb.style.display = 'inline-flex';
         }
       } catch (e) {
         console.error('Chyba pri načítaní homepage obsahu:', e);
