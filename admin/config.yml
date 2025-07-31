@@ -3,7 +3,7 @@ backend:
   repo: AdamMacejka/FestClassicRockBand
   branch: main
   auth_scope: "repo"
-  app_id: "${GITHUB_CLIENT_ID}"  # alebo natvrdo "0v23liQrIQsMirq3NKbx" na debug
+  app_id: "${GITHUB_CLIENT_ID}"  # pre debug môžeš natvrdo: "0v23liQrIQsMirq3NKbx"
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
