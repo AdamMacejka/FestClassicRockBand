@@ -30,8 +30,10 @@ collections:
           - { label: "Názov kapely", name: "band_name", widget: "string", default: "Fest Classic Rock Band" }
           - { label: "Podnadpis / tagline", name: "tagline", widget: "string", default: "Rockové hity, ktoré nezabúdajú" }
           - { label: "Titulná fotka", name: "cover_image", widget: "image" }
+          - { label: "Placeholder fotka (ak cover chýba)", name: "placeholder_image", widget: "image" }
           - { label: "O nás (text)", name: "about_text", widget: "markdown" }
           - { label: "Email pre kontakt", name: "contact_email", widget: "string", default: "booking@festclassicrockband.com" }
+
 
   - name: "members"
     label: "Členovia"
