@@ -98,5 +98,65 @@
 
     loadHomepage();
   </script>
+  <script>
+  async function fetchMembers() {
+    const repo = 'AdamMacejka/FestClassicRockBand';
+    const branch = 'main';
+    const apiBase = `https://api.github.com/repos/${repo}/contents/content/members?ref=${branch}`;
+  
+    try {
+      const listRes = await fetch(apiBase);
+      if (!listRes.ok) throw new Error('Nepodarilo sa získať zoznam členov');
+      const files = await listRes.json(); // pole súborov v content/members
+  
+      const members = [];
+  
+      for (const file of files) {
+        if (!file.name.endsWith('.md')) continue;
+        // stiahni surový markdown
+        const mdRes = await fetch(file.download_url);
+        if (!mdRes.ok) continue;
+        const text = await mdRes.text();
+  
+        // vyparsuj frontmatter (--- ... ---)
+        const match = text.match(/^---\s*([\s\S]*?)\s*---/);
+        if (!match) continue;
+        const frontmatter = match[1];
+        const data = jsyaml.load(frontmatter);
+        members.push({
+          name: data.name,
+          instrument: data.instrument,
+          image: data.image,
+        });
+      }
+  
+      renderMembers(members);
+    } catch (e) {
+      console.error('Chyba pri načítaní členov:', e);
+    }
+  }
+  
+  function renderMembers(members) {
+    const grid = document.querySelector('.members-grid');
+    if (!grid) return;
+    grid.innerHTML = ''; // vyčisti placeholdery
+  
+    members.forEach(m => {
+      const el = document.createElement('div');
+      el.className = 'member';
+      el.innerHTML = `
+        <div class="photo">
+          ${m.image ? `<img src="${m.image}" alt="${m.name}"/>` : `<div class="photo-placeholder"></div>`}
+        </div>
+        <h3>${m.name || '–'}</h3>
+        <p>${m.instrument || ''}</p>
+      `;
+      grid.appendChild(el);
+    });
+  }
+  
+  // Spusti načítanie po loadnutí
+  fetchMembers();
+  </script>
 </body>
 </html>
