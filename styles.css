@@ -26,18 +26,22 @@ a {
 
 .hero {
   position: relative;
-  height: 70vh;
-  background: #222 url('images/hero-placeholder.jpg') center/cover no-repeat;
+  color: white;
+  background-color: #111;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
 }
 
 .hero .overlay {
-  background: rgba(0,0,0,0.6);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background: rgba(0,0,0,0.5);
+  padding: 2rem;
   text-align: center;
+  width: 100%;
+  max-width: 900px;
 }
 
 .hero h1 {
