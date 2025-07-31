@@ -41,5 +41,5 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Dátum",   name: "date",     widget: "datetime" }
+      - { label: "Dátum",   name: "title",    widget: "datetime" }  # ← premenuj na title
       - { label: "Miesto",  name: "location", widget: "string" }
