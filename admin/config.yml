@@ -8,26 +8,20 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-collections:
-  - name: "about"
-    label: "O nás"
-    files:
-      - label: "Text sekcie O nás"
-        name: "about"
-        file: "content/about.md"
-        fields:
-          - label: "Obsah"
-            name: "body"
-            widget: "markdown"
+media_library:
+  name: uploadcare
+  config:
+    publicKey: "demopublickey"
 
+collections:
   - name: "homepage"
-    label: "Úvodná stránka"
+    label: "Homepage"
     files:
-      - label: "Hlavná stránka"
+      - label: "Homepage content"
         name: "homepage"
         file: "content/homepage.yml"
         fields:
-          - { label: "Názov kapely", name: "band_name", widget: "string" }
+          - { label: "Názov kapely", name: "band_name", widget: "string", required: false }
           - { label: "Tagline", name: "tagline", widget: "string", required: false }
           - { label: "Cover Image", name: "cover_image", widget: "image", required: false }
           - { label: "Placeholder Image", name: "placeholder_image", widget: "image", required: false }
@@ -36,14 +30,11 @@ collections:
           - { label: "Email", name: "contact_email", widget: "string", required: false }
           - { label: "Facebook URL", name: "facebook_url", widget: "string", required: false }
 
-
-
   - name: "members"
     label: "Členovia"
     folder: "content/members"
     create: true
     slug: "{{slug}}"
-    identifier_field: "name"
     fields:
       - { label: "Meno", name: "name", widget: "string" }
       - { label: "Nástroj", name: "instrument", widget: "string" }
@@ -54,7 +45,6 @@ collections:
     folder: "content/concerts"
     create: true
     slug: "{{slug}}"
-    identifier_field: "date"
     fields:
       - { label: "Dátum", name: "date", widget: "datetime" }
       - { label: "Miesto", name: "location", widget: "string" }
