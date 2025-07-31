@@ -1,45 +1,53 @@
+---
 backend:
   name: github
   repo: AdamMacejka/FestClassicRockBand
   branch: main
-  auth_scope: "repo"
-  app_id: "${GITHUB_CLIENT_ID}"
-
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
-
+  auth_scope: repo
+  app_id: ${GITHUB_CLIENT_ID}
+media_folder: images/uploads
+public_folder: /images/uploads
 media_library:
   name: uploadcare
   config:
-    publicKey: "demopublickey"
-
+    publicKey: demopublickey
 collections:
-  - name: "about"
-    label: "O nás"
+  - name: about
+    label: O nás
     files:
-      - label: "Text sekcie O nás"
-        name: "about"
-        file: "content/about.md"
+      - label: Text sekcie O nás
+        name: about
+        file: content/about.md
         fields:
-          - { label: "Obsah", name: "body", widget: "markdown" }
-
-  - name: "members"
-    label: "Členovia"
-    folder: "content/members"
+          - label: Obsah
+            name: body
+            widget: markdown
+  - name: members
+    label: Členovia
+    folder: content/members
     create: true
     slug: "{{slug}}"
-    identifier_field: "name"
+    identifier_field: name
     fields:
-      - { label: "Meno", name: "name", widget: "string" }
-      - { label: "Nástroj", name: "instrument", widget: "string" }
-      - { label: "Fotka", name: "image", widget: "image" }
-
-  - name: "concerts"
-    label: "Koncerty"
-    folder: "content/concerts"
+      - label: Meno
+        name: name
+        widget: string
+      - label: Nástroj
+        name: instrument
+        widget: string
+      - label: Fotka
+        name: image
+        widget: image
+  - name: concerts
+    label: Koncerty
+    folder: content/concerts
     create: true
     slug: "{{slug}}"
-    identifier_field: "date"
+    identifier_field: date
     fields:
-      - { label: "Dátum", name: "date", widget: "datetime" }
-      - { label: "Miesto", name: "location", widget: "string" }
+      - label: Dátum
+        name: date
+        widget: datetime
+      - label: Miesto
+        name: location
+        widget: string
