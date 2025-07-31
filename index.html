@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="styles.css"/>
   <!-- js-yaml na parsovanie YAML z CMS -->
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <!-- na markdown -->
 </head>
 <body>
   <header class="hero" id="hero">
@@ -157,6 +158,57 @@
   
   // Spusti načítanie po loadnutí
   fetchMembers();
+  </script>
+    <script>
+  async function loadHomepage() {
+    try {
+      const res = await fetch('/content/homepage.yml');
+      if (!res.ok) throw new Error('Nepodarilo sa stiahnuť homepage.yml');
+      const text = await res.text();
+      const data = jsyaml.load(text);
+  
+      // Názov a tagline
+      document.getElementById('band-name').textContent = data.band_name || 'Fest Classic Rock Band';
+      document.getElementById('tagline').textContent = data.tagline || '';
+  
+      // Cover / placeholder
+      const hero = document.getElementById('hero');
+      let imageUrl = '';
+  
+      if (data.cover_image) {
+        imageUrl = data.cover_image;
+      } else if (data.placeholder_image) {
+        imageUrl = data.placeholder_image;
+      }
+  
+      if (imageUrl) {
+        hero.style.backgroundImage = `url('${imageUrl}')`;
+        hero.style.backgroundSize = 'cover';
+        hero.style.backgroundPosition = 'center';
+      }
+  
+      // O nás (markdown)
+      if (data.about_text) {
+        const aboutEl = document.getElementById('about-text');
+        if (window.marked) {
+          aboutEl.innerHTML = marked(data.about_text);
+        } else {
+          aboutEl.textContent = data.about_text;
+        }
+      }
+  
+      // Kontakt
+      if (data.contact_email) {
+        const emailEl = document.getElementById('contact-email');
+        emailEl.textContent = data.contact_email;
+        emailEl.href = 'mailto:' + data.contact_email;
+      }
+    } catch (e) {
+      console.error('Chyba pri načítaní homepage obsahu:', e);
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', loadHomepage);
   </script>
 </body>
 </html>
