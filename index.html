@@ -62,11 +62,15 @@
         const data = jsyaml.load(text);
 
         // Logo
+        const logoEl = document.getElementById('logo-image');
         if (data.logo_image) {
-          const logoEl = document.getElementById('logo-image');
           logoEl.src = data.logo_image;
-          logoEl.alt = data.band_name || 'Fest Classic Rock Band';
+          logoEl.style.display = 'block';
+        } else {
+          // skryť element, keď nie je logo
+          logoEl.style.display = 'none';
         }
+
 
         // Cover / placeholder
         const hero = document.getElementById('hero');
