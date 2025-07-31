@@ -34,6 +34,8 @@ collections:
           - { label: "Logo (na cover)", name: "logo_image", widget: "image", required: false }
           - { label: "O nás", name: "about_text", widget: "markdown", required: false }
           - { label: "Email", name: "contact_email", widget: "string", required: false }
+          - { label: "Facebook URL", name: "facebook_url", widget: "string", required: false }
+
 
 
   - name: "members"
