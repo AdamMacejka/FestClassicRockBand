@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fest Classic Rock Band</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <!-- js-yaml na parsovanie YAML z CMS -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- knižnice -->
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> <!-- na markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
 </head>
 <body>
   <header class="hero" id="hero">
@@ -33,13 +33,7 @@
   <section id="members" class="section">
     <h2>Členovia</h2>
     <div class="members-grid">
-      <!-- môžeš buď staticky, alebo doplniť dynamicky podobne ako nižšie -->
-      <div class="member">
-        <div class="photo-placeholder"></div>
-        <h3>Miro</h3>
-        <p>Basgitara</p>
-      </div>
-      <!-- ďalší -->
+      <!-- dynamicky doplnené -->
     </div>
   </section>
 
@@ -58,28 +52,44 @@
   </footer>
 
   <script>
+    // ---------- HOMEPAGE ----------
     async function loadHomepage() {
       try {
         const res = await fetch('/content/homepage.yml');
-        if (!res.ok) throw new Error('Nepodarilo sa stiahnuť homepage.yml');
+        if (!res.ok) throw new Error('Nepodarilo sa stiahnuť homepage.yml: ' + res.status);
         const text = await res.text();
         const data = jsyaml.load(text);
 
-        // Titulka
-        document.getElementById('band-name').textContent = data.band_name || '';
+        // Názov a tagline
+        document.getElementById('band-name').textContent = data.band_name || 'Fest Classic Rock Band';
         document.getElementById('tagline').textContent = data.tagline || '';
 
-        // Cover image ako pozadie headeru
+        // Cover / placeholder
+        const hero = document.getElementById('hero');
+        let imageUrl = '';
         if (data.cover_image) {
-          const hero = document.getElementById('hero');
-          hero.style.backgroundImage = `url('${data.cover_image}')`;
+          imageUrl = data.cover_image;
+        } else if (data.placeholder_image) {
+          imageUrl = data.placeholder_image;
+        }
+        if (imageUrl) {
+          hero.style.backgroundImage = `url('${imageUrl}')`;
           hero.style.backgroundSize = 'cover';
           hero.style.backgroundPosition = 'center';
         }
 
-        // O nás
+        // O nás (markdown)
         if (data.about_text) {
-          document.getElementById('about-text').innerHTML = marked ? marked(data.about_text) : '<p>' + data.about_text + '</p>';
+          const aboutEl = document.getElementById('about-text');
+          if (window.marked) {
+            if (typeof marked === 'function') {
+              aboutEl.innerHTML = marked.parse ? marked.parse(data.about_text) : marked(data.about_text);
+            } else {
+              aboutEl.innerHTML = data.about_text;
+            }
+          } else {
+            aboutEl.textContent = data.about_text;
+          }
         }
 
         // Kontakt
@@ -93,129 +103,125 @@
       }
     }
 
-    // voliteľne: načítať markdown správne (ak chceš formátovanie)
-    // pridaj pred týmto <script> napr.:
-    // <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    // ---------- MEMBERS ----------
+    async function fetchMembers() {
+      const repo = 'AdamMacejka/FestClassicRockBand';
+      const branch = 'main';
+      const apiBase = `https://api.github.com/repos/${repo}/contents/content/members?ref=${branch}`;
 
-    loadHomepage();
-  </script>
-  <script>
-  async function fetchMembers() {
-    const repo = 'AdamMacejka/FestClassicRockBand';
-    const branch = 'main';
-    const apiBase = `https://api.github.com/repos/${repo}/contents/content/members?ref=${branch}`;
-  
-    try {
-      const listRes = await fetch(apiBase);
-      if (!listRes.ok) throw new Error('Nepodarilo sa získať zoznam členov');
-      const files = await listRes.json(); // pole súborov v content/members
-  
-      const members = [];
-  
-      for (const file of files) {
-        if (!file.name.endsWith('.md')) continue;
-        // stiahni surový markdown
-        const mdRes = await fetch(file.download_url);
-        if (!mdRes.ok) continue;
-        const text = await mdRes.text();
-  
-        // vyparsuj frontmatter (--- ... ---)
-        const match = text.match(/^---\s*([\s\S]*?)\s*---/);
-        if (!match) continue;
-        const frontmatter = match[1];
-        const data = jsyaml.load(frontmatter);
-        members.push({
-          name: data.name,
-          instrument: data.instrument,
-          image: data.image,
-        });
-      }
-  
-      renderMembers(members);
-    } catch (e) {
-      console.error('Chyba pri načítaní členov:', e);
-    }
-  }
-  
-  function renderMembers(members) {
-    const grid = document.querySelector('.members-grid');
-    if (!grid) return;
-    grid.innerHTML = ''; // vyčisti placeholdery
-  
-    members.forEach(m => {
-      const el = document.createElement('div');
-      el.className = 'member';
-      el.innerHTML = `
-        <div class="photo">
-          ${m.image ? `<img src="${m.image}" alt="${m.name}"/>` : `<div class="photo-placeholder"></div>`}
-        </div>
-        <h3>${m.name || '–'}</h3>
-        <p>${m.instrument || ''}</p>
-      `;
-      grid.appendChild(el);
-    });
-  }
-  
-  // Spusti načítanie po loadnutí
-  fetchMembers();
-  </script>
-    <script>
-  async function loadHomepage() {
-    try {
-      const res = await fetch('/content/homepage.yml');
-      if (!res.ok) throw new Error('Nepodarilo sa stiahnuť homepage.yml');
-      const text = await res.text();
-      const data = jsyaml.load(text);
-  
-      // Názov a tagline
-      document.getElementById('band-name').textContent = data.band_name || 'Fest Classic Rock Band';
-      document.getElementById('tagline').textContent = data.tagline || '';
-  
-      // Cover / placeholder
-      const hero = document.getElementById('hero');
-      let imageUrl = '';
-  
-      if (data.cover_image) {
-        imageUrl = data.cover_image;
-      } else if (data.placeholder_image) {
-        imageUrl = data.placeholder_image;
-      }
-  
-      if (imageUrl) {
-        hero.style.backgroundImage = `url('${imageUrl}')`;
-        hero.style.backgroundSize = 'cover';
-        hero.style.backgroundPosition = 'center';
-      }
-  
-      // O nás (markdown)
-      if (data.about_text) {
-        const aboutEl = document.getElementById('about-text');
-        if (window.marked) {
-          // nové verzie používajú marked.parse
-          if (typeof marked === 'function') {
-            aboutEl.innerHTML = marked(data.about_text);
-          } else if (marked.parse) {
-            aboutEl.innerHTML = marked.parse(data.about_text);
-          } else {
-            aboutEl.textContent = data.about_text;
+      try {
+        const listRes = await fetch(apiBase);
+        if (!listRes.ok) {
+          console.error('Nepodarilo sa získať zoznam členov, status', listRes.status);
+          if (listRes.status === 404) {
+            document.querySelector('.members-grid').innerHTML = '<p>Žiadni členovia zatiaľ. Pridaj ich cez CMS.</p>';
           }
-        } else {
-          aboutEl.textContent = data.about_text;
+          return;
         }
+        const files = await listRes.json();
+
+        const members = [];
+        for (const file of files) {
+          if (!file.name.endsWith('.md')) continue;
+          const mdRes = await fetch(file.download_url);
+          if (!mdRes.ok) continue;
+          const text = await mdRes.text();
+          const match = text.match(/^---\s*([\s\S]*?)\s*---/);
+          if (!match) continue;
+          const frontmatter = match[1];
+          const data = jsyaml.load(frontmatter);
+          members.push({
+            name: data.name,
+            instrument: data.instrument,
+            image: data.image,
+          });
+        }
+
+        renderMembers(members);
+      } catch (e) {
+        console.error('Chyba pri načítaní členov:', e);
       }
-  
-      // Kontakt
-      if (data.contact_email) {
-        const emailEl = document.getElementById('contact-email');
-        emailEl.textContent = data.contact_email;
-        emailEl.href = 'mailto:' + data.contact_email;
-      }
-    } catch (e) {
-      console.error('Chyba pri načítaní homepage obsahu:', e);
     }
-  }
-  
-  document.addEventListener('DOMContentLoaded', loadHomepage);
+
+    function renderMembers(members) {
+      const grid = document.querySelector('.members-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (members.length === 0) {
+        grid.innerHTML = '<p>Žiadni členovia nenájdení.</p>';
+        return;
+      }
+
+      members.forEach(m => {
+        const el = document.createElement('div');
+        el.className = 'member';
+        el.innerHTML = `
+          <div class="photo">
+            ${m.image ? `<img src="${m.image}" alt="${m.name}"/>` : `<div class="photo-placeholder"></div>`}
+          </div>
+          <h3>${m.name || '–'}</h3>
+          <p>${m.instrument || ''}</p>
+        `;
+        grid.appendChild(el);
+      });
+
+      setupLightbox();
+    }
+
+    // ---------- LIGHTBOX ----------
+    function setupLightbox() {
+      document.querySelectorAll('.member').forEach(member => {
+        member.addEventListener('click', () => {
+          const img = member.querySelector('img');
+          if (!img) return;
+
+          const src = img.src;
+          const alt = img.alt || '';
+
+          const overlay = document.createElement('div');
+          overlay.className = 'lightbox-overlay';
+
+          const content = document.createElement('div');
+          content.className = 'lightbox-content';
+
+          const largeImg = document.createElement('img');
+          largeImg.src = src;
+          largeImg.alt = alt;
+
+          const closeBtn = document.createElement('button');
+          closeBtn.className = 'lightbox-close';
+          closeBtn.innerHTML = '&times;';
+          closeBtn.setAttribute('aria-label', 'Zatvoriť');
+
+          closeBtn.addEventListener('click', () => {
+            overlay.remove();
+          });
+
+          overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.remove();
+          });
+
+          document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape') {
+              overlay.remove();
+              document.removeEventListener('keydown', escHandler);
+            }
+          });
+
+          content.appendChild(largeImg);
+          content.appendChild(closeBtn);
+          overlay.appendChild(content);
+          document.body.appendChild(overlay);
+        });
+      });
+    }
+
+    // ---------- INIT ----------
+    document.addEventListener('DOMContentLoaded', () => {
+      loadHomepage();
+      fetchMembers();
+    });
   </script>
 </body>
 </html>
