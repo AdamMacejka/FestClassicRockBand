@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -6,13 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Fest Classic Rock Band</title>
   <link rel="stylesheet" href="styles.css"/>
+  <!-- js-yaml na parsovanie YAML z CMS -->
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
 <body>
-  <header class="hero">
+  <header class="hero" id="hero">
     <div class="overlay">
-      <h1>Fest Classic Rock Band</h1>
+      <h1 id="band-name">Fest Classic Rock Band</h1>
+      <p id="tagline">Rockové hity, ktoré nezabúdajú</p>
       <nav>
-        <a href="#about">O nás</a>
+        <a href="#about">O nás</a>
         <a href="#members">Členovia</a>
         <a href="#concerts">Koncerty</a>
         <a href="#contact">Kontakt</a>
@@ -21,38 +23,22 @@
   </header>
 
   <section id="about" class="section">
-    <h2>O nás</h2>
-    <p>Text doplníme neskôr...</p>
+    <h2>O nás</h2>
+    <div id="about-text">
+      <p>Text doplníme neskôr...</p>
+    </div>
   </section>
 
   <section id="members" class="section">
     <h2>Členovia</h2>
     <div class="members-grid">
+      <!-- môžeš buď staticky, alebo doplniť dynamicky podobne ako nižšie -->
       <div class="member">
         <div class="photo-placeholder"></div>
         <h3>Miro</h3>
         <p>Basgitara</p>
       </div>
-      <div class="member">
-        <div class="photo-placeholder"></div>
-        <h3>Lacko</h3>
-        <p>Gitara / Spev</p>
-      </div>
-      <div class="member">
-        <div class="photo-placeholder"></div>
-        <h3>Vali</h3>
-        <p>Klavír</p>
-      </div>
-      <div class="member">
-        <div class="photo-placeholder"></div>
-        <h3>???</h3>
-        <p>Gitara / Spev</p>
-      </div>
-      <div class="member">
-        <div class="photo-placeholder"></div>
-        <h3>???</h3>
-        <p>Bicie</p>
-      </div>
+      <!-- ďalší -->
     </div>
   </section>
 
@@ -63,11 +49,54 @@
 
   <section id="contact" class="section">
     <h2>Kontakt</h2>
-    <p>Email: <a href="mailto:booking@festclassicrockband.com">booking@festclassicrockband.com</a></p>
+    <p>Email: <a id="contact-email" href="mailto:booking@festclassicrockband.com">booking@festclassicrockband.com</a></p>
   </section>
 
   <footer class="footer">
     <p>© 2025 Fest Classic Rock Band</p>
   </footer>
+
+  <script>
+    async function loadHomepage() {
+      try {
+        const res = await fetch('/content/homepage.yml');
+        if (!res.ok) throw new Error('Nepodarilo sa stiahnuť homepage.yml');
+        const text = await res.text();
+        const data = jsyaml.load(text);
+
+        // Titulka
+        document.getElementById('band-name').textContent = data.band_name || '';
+        document.getElementById('tagline').textContent = data.tagline || '';
+
+        // Cover image ako pozadie headeru
+        if (data.cover_image) {
+          const hero = document.getElementById('hero');
+          hero.style.backgroundImage = `url('${data.cover_image}')`;
+          hero.style.backgroundSize = 'cover';
+          hero.style.backgroundPosition = 'center';
+        }
+
+        // O nás
+        if (data.about_text) {
+          document.getElementById('about-text').innerHTML = marked ? marked(data.about_text) : '<p>' + data.about_text + '</p>';
+        }
+
+        // Kontakt
+        if (data.contact_email) {
+          const emailEl = document.getElementById('contact-email');
+          emailEl.textContent = data.contact_email;
+          emailEl.href = 'mailto:' + data.contact_email;
+        }
+      } catch (e) {
+        console.error('Chyba pri načítaní homepage obsahu:', e);
+      }
+    }
+
+    // voliteľne: načítať markdown správne (ak chceš formátovanie)
+    // pridaj pred týmto <script> napr.:
+    // <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    loadHomepage();
+  </script>
 </body>
 </html>
