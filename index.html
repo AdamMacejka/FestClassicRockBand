@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fest Classic Rock Band</title>
 
-  <!-- rockový font + fallback -->
+  <!-- Rockový / gotický štýl: ak nebudeš mať vlastný font, použijeme fallback z Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- použité kombinované: "UnifrakturCook" pre nadpisy a "Roboto Slab" pre text -->
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
@@ -56,7 +57,6 @@
         Email: <a id="contact-email" href="mailto:booking@festclassicrockband.com">booking@festclassicrockband.com</a>
       </p>
       <p class="social">
-        <!-- Facebook icon + placeholder, ukáže sa len ak existuje link -->
         <a id="facebook-link" href="#" target="_blank" aria-label="Facebook kapely" class="facebook">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M13.5 3H16V0h-3c-3.038 0-5 1.962-5 5v2H6v4h2v8h4v-8h3l1-4h-4V5c0-.551.448-1 1-1h2V3z"/>
@@ -130,6 +130,8 @@
           const fb = document.getElementById('facebook-link');
           fb.href = data.facebook_url;
           fb.style.display = 'inline-flex';
+        } else {
+          document.getElementById('facebook-link').style.display = 'none';
         }
       } catch (e) {
         console.error('Chyba pri načítaní homepage obsahu:', e);
