@@ -185,12 +185,23 @@ h1, h2 {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  align-items: center;
-  font-size: 0.95rem;
+}
+
+.contact-block {
+  flex: 1 1 300px;
 }
 
 .contact-row .email {
   flex: 1 1 250px;
+}
+
+.contact-block p {
+  margin: 4px 0;
+}
+
+.phone a {
+  color: var(--text-color);
+  text-decoration: underline;
 }
 
 .contact-row .social {
