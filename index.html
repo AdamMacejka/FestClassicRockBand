@@ -212,27 +212,39 @@
       const grid = document.querySelector('.members-grid');
       if (!grid) return;
       grid.innerHTML = '';
-
-      if (!members || members.length === 0) {
+    
+      if (members.length === 0) {
         grid.innerHTML = '<p>Žiadni členovia nenájdení.</p>';
         return;
       }
-
+    
       members.forEach(m => {
         const el = document.createElement('div');
         el.className = 'member';
+    
+        // ak je obrázok, použij ho, inak inline SVG silueta
+        const photoHtml = m.image
+          ? `<img src="${m.image}" alt="${m.name}"/>`
+          : `<div class="photo-placeholder">
+               <svg aria-hidden="true" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                 <circle cx="12" cy="8" r="4"></circle>
+                 <path d="M6 20c0-3.314 2.686-6 6-6s6 2.686 6 6"></path>
+               </svg>
+             </div>`;
+    
         el.innerHTML = `
           <div class="photo">
-            ${m.image ? `<img src="${m.image}" alt="${m.name}"/>` : `<div class="photo-placeholder"></div>`}
+            ${photoHtml}
           </div>
           <h3>${m.name || '–'}</h3>
           <p>${m.instrument || ''}</p>
         `;
         grid.appendChild(el);
       });
-
+    
       setupLightbox();
     }
+
 
     // ---------- CONCERTS ----------
     async function fetchConcerts() {
