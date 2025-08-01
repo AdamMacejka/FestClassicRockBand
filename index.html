@@ -278,15 +278,15 @@
             <div class="concert-date">${dateStr}</div>
             <div class="concert-location">${c.location || ''}</div>
             <div class="concert-links">`;
-
+        
+        const parts = [];
         if (c.event_url) {
-          inner += `<a class="link-event" target="_blank" rel="noopener" href="${c.event_url}">Event</a>`;
+          parts.push(`<a class="link-event" target="_blank" rel="noopener" href="${c.event_url}">Event</a>`);
         }
         if (c.map_url) {
-          if (c.event_url) inner += ' | ';
-          inner += `<a class="link-map" target="_blank" rel="noopener" href="${c.map_url}">Mapa</a>`;
+          parts.push(`<a class="link-map" target="_blank" rel="noopener" href="${c.map_url}">Mapa</a>`);
         }
-
+        inner += parts.join(' | ');
         inner += `</div></div>`;
 
         card.innerHTML = inner;
