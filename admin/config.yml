@@ -38,7 +38,7 @@ collections:
     fields:
       - { label: "Meno", name: "name", widget: "string" }
       - { label: "Nástroj", name: "instrument", widget: "string" }
-      - { label: "Fotka", name: "image", widget: "image" }
+      - { label: "Fotka", name: "image", widget: "image", required: false }
 
   - name: "concerts"
     label: "Koncerty"
