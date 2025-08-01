@@ -1,11 +1,15 @@
+contact_email_primary: kollar.miroslav1@gmail.com
 band_name: Fest Classic Rock Band
 tagline: Rockové hity, ktoré nezabúdajú
 cover_image: /images/uploads/cover_old.jpg
 placeholder_image: ""
 logo_image: /images/uploads/logo_extracted_with_red.png
-about_text: Sme skúsená kapela, čo hrá klasiku srdcom.
-contact_email_primary: kollar.miroslav1@gmail.com
 contact_email_secondary: kulimarian@azet.sk
-phone_numbers:
-  - "+421 903 641 071"
+about_text: Fest Classic Rock Band je skupina skúsených muzikantov, ktorí na
+  pódiu oživujú veľké rockové klasiky. S vtipom, rešpektom k originálu a
+  energiou, ktorá osloví publikum, prinášajú známe hity tak, aby zneli sviežo a
+  autenticky. Hrajú pre ľudí, ktorí chcú zažiť rock tak, ako má byť — poctivo,
+  srdcom a bez kompromisov.
 facebook_url: https://www.facebook.com/profile.php?id=100063581830181
+phone_numbers:
+  - +421 903 641 071
