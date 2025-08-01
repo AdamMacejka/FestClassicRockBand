@@ -10,10 +10,9 @@
 
   <title>Fest Classic Rock Band</title>
 
-  <!-- Rockový / gotický štýl: ak nebudeš mať vlastný font, použijeme fallback z Google -->
+  <!-- Rockový / gotický štýl: UnifrakturCook pre nadpisy, Roboto Slab pre text -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- použité kombinované: "UnifrakturCook" pre nadpisy a "Roboto Slab" pre text -->
   <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
@@ -41,6 +40,14 @@
     <div id="about-text">
       <p>Text doplníme neskôr...</p>
     </div>
+    <div class="social-inline">
+      <a id="facebook-link" href="#" target="_blank" class="facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M13.5 3H16V0h-3c-3.038 0-5 1.962-5 5v2H6v4h2v8h4v-8h3l1-4h-4V5c0-.551.448-1 1-1h2V3z"/>
+        </svg>
+        Facebook
+      </a>
+    </div>
   </section>
 
   <section id="members" class="section">
@@ -60,14 +67,6 @@
     <div class="contact-row">
       <p class="email">
         Email: <a id="contact-email" href="mailto:booking@festclassicrockband.com">booking@festclassicrockband.com</a>
-      </p>
-      <p class="social">
-        <a id="facebook-link" href="#" target="_blank" aria-label="Facebook kapely" class="facebook">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M13.5 3H16V0h-3c-3.038 0-5 1.962-5 5v2H6v4h2v8h4v-8h3l1-4h-4V5c0-.551.448-1 1-1h2V3z"/>
-          </svg>
-          <span class="label">Facebook</span>
-        </a>
       </p>
     </div>
   </section>
@@ -130,7 +129,7 @@
           emailEl.href = 'mailto:' + data.contact_email;
         }
 
-        // Facebook (voliteľné)
+        // Facebook (v sekcii O nás)
         if (data.facebook_url) {
           const fb = document.getElementById('facebook-link');
           fb.href = data.facebook_url;
@@ -188,7 +187,7 @@
       if (!grid) return;
       grid.innerHTML = '';
 
-      if (members.length === 0) {
+      if (!members || members.length === 0) {
         grid.innerHTML = '<p>Žiadni členovia nenájdení.</p>';
         return;
       }
@@ -208,101 +207,95 @@
 
       setupLightbox();
     }
-    <script>
-  // ---------- CONCERTS ----------
-  async function fetchConcerts() {
-    const repo = 'AdamMacejka/FestClassicRockBand';
-    const branch = 'main';
-    const apiBase = `https://api.github.com/repos/${repo}/contents/content/concerts?ref=${branch}`;
 
-    try {
-      const listRes = await fetch(apiBase);
-      const container = document.getElementById('concerts');
-      if (!listRes.ok) {
-        console.warn('Nepodarilo sa získať koncerty', listRes.status);
+    // ---------- CONCERTS ----------
+    async function fetchConcerts() {
+      const repo = 'AdamMacejka/FestClassicRockBand';
+      const branch = 'main';
+      const apiBase = `https://api.github.com/repos/${repo}/contents/content/concerts?ref=${branch}`;
+
+      try {
+        const listRes = await fetch(apiBase);
+        const section = document.getElementById('concerts');
+        if (!listRes.ok) {
+          console.warn('Nepodarilo sa získať koncerty', listRes.status);
+          return;
+        }
+        const files = await listRes.json();
+        const concerts = [];
+
+        for (const file of files) {
+          if (!file.name.endsWith('.md')) continue;
+          const mdRes = await fetch(file.download_url);
+          if (!mdRes.ok) continue;
+          const text = await mdRes.text();
+          const match = text.match(/^---\s*([\s\S]*?)\s*---/);
+          if (!match) continue;
+          const frontmatter = match[1];
+          const data = jsyaml.load(frontmatter);
+          concerts.push({
+            date: data.date,
+            location: data.location,
+            event_url: data.event_url,
+            map_url: data.map_url,
+          });
+        }
+
+        renderConcerts(concerts);
+      } catch (e) {
+        console.error('Chyba pri načítaní koncertov:', e);
+      }
+    }
+
+    function renderConcerts(concerts) {
+      const section = document.getElementById('concerts');
+      if (!section) return;
+
+      if (!concerts || concerts.length === 0) {
+        section.innerHTML = '<h2>Koncerty</h2><p>Informácie o koncertoch doplníme čoskoro.</p>';
         return;
       }
-      const files = await listRes.json();
-      const concerts = [];
 
-      for (const file of files) {
-        if (!file.name.endsWith('.md')) continue;
-        const mdRes = await fetch(file.download_url);
-        if (!mdRes.ok) continue;
-        const text = await mdRes.text();
-        const match = text.match(/^---\s*([\s\S]*?)\s*---/);
-        if (!match) continue;
-        const frontmatter = match[1];
-        const data = jsyaml.load(frontmatter);
-        concerts.push({
-          date: data.date,
-          location: data.location,
-          event_url: data.event_url,
-          map_url: data.map_url,
-        });
-      }
+      concerts.sort((a, b) => {
+        const da = new Date(a.date);
+        const db = new Date(b.date);
+        return da - db;
+      });
 
-      renderConcerts(concerts);
-    } catch (e) {
-      console.error('Chyba pri načítaní koncertov:', e);
+      const list = document.createElement('div');
+      list.className = 'concert-list';
+
+      concerts.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'concert-card';
+
+        const dateObj = c.date ? new Date(c.date) : null;
+        const dateStr = dateObj
+          ? dateObj.toLocaleDateString('sk-SK', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+          : '';
+
+        let inner = `<div class="concert-info">
+            <div class="concert-date">${dateStr}</div>
+            <div class="concert-location">${c.location || ''}</div>
+            <div class="concert-links">`;
+
+        if (c.event_url) {
+          inner += `<a class="link-event" target="_blank" rel="noopener" href="${c.event_url}">Event</a>`;
+        }
+        if (c.map_url) {
+          if (c.event_url) inner += ' | ';
+          inner += `<a class="link-map" target="_blank" rel="noopener" href="${c.map_url}">Mapa</a>`;
+        }
+
+        inner += `</div></div>`;
+
+        card.innerHTML = inner;
+        list.appendChild(card);
+      });
+
+      section.innerHTML = '<h2>Koncerty</h2>';
+      section.appendChild(list);
     }
-  }
-
-  function renderConcerts(concerts) {
-    const section = document.getElementById('concerts');
-    if (!section) return;
-
-    if (!concerts || concerts.length === 0) {
-      section.innerHTML = '<h2>Koncerty</h2><p>Informácie o koncertoch doplníme čoskoro.</p>';
-      return;
-    }
-
-    // zoradiť podľa dátumu (najbližší hore)
-    concerts.sort((a, b) => {
-      const da = new Date(a.date);
-      const db = new Date(b.date);
-      return da - db;
-    });
-
-    const list = document.createElement('div');
-    list.className = 'concert-list';
-
-    concerts.forEach(c => {
-      const card = document.createElement('div');
-      card.className = 'concert-card';
-
-      const dateObj = c.date ? new Date(c.date) : null;
-      const dateStr = dateObj
-        ? dateObj.toLocaleDateString('sk-SK', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-        : '';
-
-      let inner = `<div class="concert-info">
-          <div class="concert-date">${dateStr}</div>
-          <div class="concert-location">${c.location || ''}</div>
-          <div class="concert-links">`;
-
-      if (c.event_url) {
-        inner += `<a class="link-event" target="_blank" rel="noopener" href="${c.event_url}">Event</a>`;
-      }
-      if (c.map_url) {
-        inner += ` ${c.event_url ? '|' : ''} <a class="link-map" target="_blank" rel="noopener" href="${c.map_url}">Mapa</a>`;
-      }
-
-      inner += `</div></div>`;
-
-      card.innerHTML = inner;
-      list.appendChild(card);
-    });
-
-    section.innerHTML = '<h2>Koncerty</h2>';
-    section.appendChild(list);
-  }
-
-  // zavolaj pri init
-  document.addEventListener('DOMContentLoaded', () => {
-    fetchConcerts();
-  });
-</script>
 
     // ---------- LIGHTBOX ----------
     function setupLightbox() {
@@ -323,6 +316,7 @@
           const largeImg = document.createElement('img');
           largeImg.src = src;
           largeImg.alt = alt;
+          largeImg.className = 'lightbox-img';
 
           const closeBtn = document.createElement('button');
           closeBtn.className = 'lightbox-close';
@@ -356,6 +350,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadHomepage();
       fetchMembers();
+      fetchConcerts();
     });
   </script>
 </body>
