@@ -63,12 +63,20 @@
   </section>
 
   <section id="contact" class="section">
-    <h2>Kontakt</h2>
-    <div class="contact-row">
+  <h2>Kontakt</h2>
+  <div class="contact-row">
+    <div class="contact-block">
       <p class="email">
-        Email: <a id="contact-email" href="mailto:booking@festclassicrockband.com">booking@festclassicrockband.com</a>
+        Email (1): <a id="contact-email-primary" href="mailto:booking@festclassicrockband.com">booking@festclassicrockband.com</a>
       </p>
+      <p class="email">
+        Email (2): <a id="contact-email-secondary" href="mailto:info@festclassicrockband.com">info@festclassicrockband.com</a>
+      </p>
+      <div id="phones">
+        <!-- telefóny doplní JS -->
+      </div>
     </div>
+  </div>
   </section>
 
   <footer class="footer">
@@ -122,12 +130,30 @@
           }
         }
 
-        // Kontakt email
-        if (data.contact_email) {
-          const emailEl = document.getElementById('contact-email');
-          emailEl.textContent = data.contact_email;
-          emailEl.href = 'mailto:' + data.contact_email;
+        // Kontakt emaily
+        if (data.contact_email_primary) {
+          const e1 = document.getElementById('contact-email-primary');
+          e1.textContent = data.contact_email_primary;
+          e1.href = 'mailto:' + data.contact_email_primary;
         }
+        if (data.contact_email_secondary) {
+          const e2 = document.getElementById('contact-email-secondary');
+          e2.textContent = data.contact_email_secondary;
+          e2.href = 'mailto:' + data.contact_email_secondary;
+        }
+        
+        // Telefóny
+        if (data.phone_numbers && Array.isArray(data.phone_numbers)) {
+          const phonesContainer = document.getElementById('phones');
+          phonesContainer.innerHTML = ''; // vyčisti
+          data.phone_numbers.forEach(p => {
+            const pEl = document.createElement('p');
+            pEl.className = 'phone';
+            pEl.innerHTML = `Tel: <a href="tel:${p.replace(/\s+/g, '')}">${p}</a>`;
+            phonesContainer.appendChild(pEl);
+          });
+        }
+
 
         // Facebook (v sekcii O nás)
         if (data.facebook_url) {
