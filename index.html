@@ -213,16 +213,16 @@
       const grid = document.querySelector('.members-grid');
       if (!grid) return;
       grid.innerHTML = '';
-
+    
       if (!members || members.length === 0) {
         grid.innerHTML = '<p>Žiadni členovia nenájdení.</p>';
         return;
       }
-
+    
       members.forEach(m => {
         const el = document.createElement('div');
         el.className = 'member';
-
+    
         // Foto alebo silueta
         const photoContent = m.image
           ? `<img src="${m.image}" alt="${m.name || 'Člen kapely'}"/>`
@@ -233,7 +233,7 @@
                 <path d="M16 54c0-9 7-16 16-16s16 7 16 16" fill="rgba(255,255,255,0.1)"/>
               </svg>
             </div>`;
-
+    
         el.innerHTML = `
           <div class="photo">
             ${photoContent}
@@ -245,7 +245,7 @@
         `;
         grid.appendChild(el);
       });
-
+    
       setupLightbox();
     }
 
