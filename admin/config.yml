@@ -48,3 +48,5 @@ collections:
     fields:
       - { label: "Dátum", name: "date", widget: "datetime" }
       - { label: "Miesto", name: "location", widget: "string" }
+      - { label: "Event link", name: "event_url", widget: "string", required: false }
+      - { label: "Mapa (Google Maps URL)", name: "map_url", widget: "string", required: false }
