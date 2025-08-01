@@ -4,5 +4,9 @@ cover_image: /images/uploads/cover_old.jpg
 placeholder_image: ""
 logo_image: /images/uploads/logo_extracted_with_red.png
 about_text: Sme skúsená kapela, čo hrá klasiku srdcom.
-contact_email: kollar.miroslav1@gmail.com
+contact_email_primary: kollar.miroslav1@gmail.com
+contact_email_secondary: "info@festclassicrockband.com"
+phone_numbers:
+  - "+421 910 123 456"
+  - "+421 903 654 321"
 facebook_url: https://www.facebook.com/profile.php?id=100063581830181
