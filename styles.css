@@ -277,6 +277,55 @@ h1, h2 {
   line-height: 1;
   box-shadow: 0 8px 25px rgba(225,16,0,0.6);
 }
+.concert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.concert-card {
+  background: #1f1f1f;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid #2a2a2a;
+}
+
+.concert-info {
+  flex: 1 1 100%;
+}
+
+.concert-date {
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.concert-location {
+  margin-bottom: 6px;
+  color: #ccc;
+}
+
+.concert-links a {
+  font-size: 0.85rem;
+  margin-right: 8px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(225,16,0,0.1);
+  color: #e10600;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background .2s;
+}
+
+.concert-links a:hover {
+  background: rgba(225,16,0,0.2);
+}
+
 
 /* Responsívne */
 @media (max-width: 800px) {
