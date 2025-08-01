@@ -174,11 +174,20 @@ h1, h2 {
 }
 
 .photo-placeholder {
-  background: #444;
+  background: #222;
   width: 100%;
-  padding-top: 100%;
+  padding-top: 100%; /* pomer 1:1 */
   border-radius: 4px;
-  margin-bottom: 0.75rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-placeholder svg {
+  position: absolute;
+  width: 50%;
+  height: 50%;
 }
 
 .contact-row {
